@@ -3,8 +3,12 @@ package com.zxf.test;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.net.PortUnreachableException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -58,5 +62,15 @@ public class DataSourceTest {
         System.out.println(connection);
         connection.close();
 
+    }
+    //spring 配置文件获取数据源
+    @Test
+    public void test4() throws SQLException {
+        ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext.xml");
+        //DataSource datasource= (DataSource) app.getBean("dataSource");
+        DataSource datasource= (DataSource) app.getBean(DataSource.class);
+        Connection connection = datasource.getConnection();
+        System.out.println(connection);
+        connection.close();
     }
 }
